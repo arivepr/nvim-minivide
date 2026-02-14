@@ -1,8 +1,8 @@
 return {
   {
     "ibhagwan/fzf-lua",
-    -- Optional: depend on nvim-web-devicons for better visuals
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- Optional: depend on mini.icons for better visuals
+    dependencies = { "echasnovski/mini.icons" },
     config = function()
       -- Initial setup for the base plugin
       require("fzf-lua").setup({
