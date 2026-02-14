@@ -32,12 +32,15 @@ return {
         handlers = {
           -- The default handler (replaces the old setup_handlers loop)
           function(server_name)
-            require("lspconfig")[server_name].setup({})
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
+            require("lspconfig")[server_name].setup({ capabilities = capabilities })
           end,
 
           -- Specific override for Lua
           ["lua_ls"] = function()
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
             require("lspconfig").lua_ls.setup({
+              capabilities = capabilities,
               settings = {
                 Lua = {
                   diagnostics = {
