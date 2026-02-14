@@ -1,16 +1,10 @@
 return {
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     opts = {},
-    lazy = true,
-    specs = {
-      { provider = "mini.icons", setup = function() require("mini.icons").setup() end },
-    },
-    init = function()
-      package.preload["nvim-web-devicons"] = function()
-        require("mini.icons").mock_nvim_web_devicons()
-        return package.loaded["nvim-web-devicons"]
-      end
+    config = function(_, opts)
+      require("mini.icons").setup(opts)
+      require("mini.icons").mock_nvim_web_devicons()
     end,
   },
 }

@@ -15,6 +15,8 @@ opt.smartindent = true
 opt.smarttab = true
 opt.smartcase = true
 
+opt.encoding = "utf-8"
+opt.fileencoding = "utf-8"
 
 opt.swapfile = false
 opt.backup = false

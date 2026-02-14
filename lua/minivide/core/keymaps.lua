@@ -11,6 +11,8 @@ vim.keymap.set('i', ';;', '<Esc>', { noremap = true, silent = true })
 -- File Management
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Explorer (Oil)" })
 
 -- Fuzzy Finder (FZF-Lua)
 -- We wrap these in functions so they only load fzf_custom when actually called

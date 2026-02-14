@@ -2,7 +2,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     -- Optional: depend on mini.icons for better visuals
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-mini/mini.icons" },
     config = function()
       -- Initial setup for the base plugin
       require("fzf-lua").setup({

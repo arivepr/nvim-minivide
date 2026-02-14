@@ -2,7 +2,7 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-mini/mini.icons" },
     opts = {
       preset = "classic", -- Fixed UI at the bottom
       win = {

@@ -20,7 +20,7 @@ return {
         use_nvim_cmp_as_default = true,
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to match your font
-        nerd_font_variant = 'mono'
+        nerd_font_variant = 'normal'
       },
 
       -- Default list of enabled providers
