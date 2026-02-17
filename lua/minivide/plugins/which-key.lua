@@ -4,6 +4,7 @@ return {
     event = "VeryLazy",
     dependencies = { "nvim-mini/mini.icons" },
     opts = {
+      delay = 0,
       preset = "classic", -- Fixed UI at the bottom
       win = {
         border = "single", -- Unified with FZF and LSP windows
@@ -16,9 +17,12 @@ return {
       },
       -- Logic to group your leader keys into "folders" in the UI
       spec = {
-        { "<leader>f", group = "find", icon = " " },
-        { "<leader>l", group = "lsp", icon = " " },
-        { "<leader>w", desc = "save file", icon = "󰆓 " },
+        { "<leader>b", group = "buffer", icon = " " }, -- Multiple files icon
+        { "<leader>f", group = "find", icon = " " },   -- Search icon
+        { "<leader>l", group = "lsp", icon = " " },    -- Package/Box icon
+        { "<leader>d", group = "debug", icon = " " },  -- Debug icon
+        { "<leader>g", group = "godot", icon = " " },  -- Godot icon
+        { "<leader>w", desc = "save file", icon = " " }, -- Floppy disk icon
       },
     },
   },

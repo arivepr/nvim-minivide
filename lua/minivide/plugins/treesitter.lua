@@ -3,39 +3,40 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function(_, opts)
-      require("nvim-treesitter.config").setup(opts)
+      -- In the new nvim-treesitter (v1.0+), setup only handles parser installation.
+      -- highlight/indent options are NOT processed by this API.
+      require("nvim-treesitter").setup(opts)
 
-      -- Enable Treesitter-based folding
-      -- This makes folding understand code structure (functions, classes, etc.)
-      vim.opt.foldmethod = "expr"
-      vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-      -- Ensure folds start open by default so your file isn't collapsed on open
-      vim.opt.foldlevel = 99 
-
-      -- Performance "Kill Switch" for large files
-      -- Disables Treesitter highlighting on files larger than 500KB to prevent lag
-      vim.api.nvim_create_autocmd("BufReadPre", {
-        callback = function(ev)
-          local max_filesize = 500 * 1024 -- 500 KB
-          local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
-          if ok and stats and stats.size > max_filesize then
-            vim.b.ts_highlight = false
-          end
+      -- Activate treesitter highlighting for all filetypes with an available parser.
+      -- This replaces the old highlight = { enable = true } behavior.
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
         end,
       })
+
+      -- Enable Treesitter-based folding
+      vim.opt.foldmethod = "expr"
+      vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      vim.opt.foldlevel = 99
     end,
     opts = {
+      -- A list of parser names, or "all"
       ensure_installed = {
         "lua",
         "vim",
         "vimdoc",
         "gdscript",
+        "godot_resource",
+        "gdshader",
         "python",
         "typescript",
         "javascript",
         "html",
         "css",
       },
+      -- Highlighting is enabled by default in v1.0, 
+      -- but we can still customize it here
       highlight = {
         enable = true,
       },

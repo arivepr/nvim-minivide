@@ -1,10 +1,14 @@
 return {
   {
     "nvim-mini/mini.icons",
-    opts = {},
-    config = function(_, opts)
-      require("mini.icons").setup(opts)
-      require("mini.icons").mock_nvim_web_devicons()
+    opts = {
+      style = "glyph", -- Fallback to ASCII while font issues are resolved
+    },
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
     end,
   },
 }

@@ -27,19 +27,20 @@ return {
       -- 2. Setup Mason-LSPConfig with the 0.11-style handlers
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "pyright" },
-        
-        -- In 0.11, we pass the setup logic directly into the 'handlers' table
+
+        -- In 0.11, we use the new vim.lsp.config and vim.lsp.enable APIs
         handlers = {
-          -- The default handler (replaces the old setup_handlers loop)
+          -- The default handler
           function(server_name)
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
-            require("lspconfig")[server_name].setup({ capabilities = capabilities })
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            vim.lsp.config(server_name, { capabilities = capabilities })
+            vim.lsp.enable(server_name)
           end,
 
           -- Specific override for Lua
           ["lua_ls"] = function()
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
-            require("lspconfig").lua_ls.setup({
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            vim.lsp.config("lua_ls", {
               capabilities = capabilities,
               settings = {
                 Lua = {
@@ -49,9 +50,40 @@ return {
                 },
               },
             })
+            vim.lsp.enable("lua_ls")
           end,
         },
       })
+
+      -- 3. Setup Godot LSP (Pro-level setup)
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      -- Enable semantic tokens and inlay hints for high-context coding
+      capabilities.textDocument = capabilities.textDocument or {}
+      capabilities.textDocument.semanticTokens = { dynamicRegistration = true }
+
+      vim.lsp.config("gdscript", {
+        capabilities = capabilities,
+        filetypes = { "gdscript" },
+        -- Use nc to bridge the connection (more stable for context-rich projects)
+        cmd = { "nc", "127.0.0.1", "6005" },
+        -- Integrate extended LSP handlers for documentation and signals
+        handlers = require("gdscript-extended-lsp").handlers,
+        -- Root dir detection ensures cross-file signals and node paths work
+        root_dir = function(fname)
+          return vim.fs.root(fname, { "project.godot", ".git" })
+        end,
+        on_attach = function(client, bufnr)
+          -- Disable LSP formatting to let conform.nvim handle it
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+
+          -- Enable Inlay Hints (Visual context for parameters/types)
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+        end,
+      })
+      vim.lsp.enable("gdscript")
     end,
   },
 }
