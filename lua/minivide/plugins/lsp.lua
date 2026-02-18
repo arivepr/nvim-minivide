@@ -26,8 +26,20 @@ return {
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
           vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Show references" })
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename symbol" })
-          vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code actions" })
+          -- LSP group keybindings
+          vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "code actions" })
+          vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename symbol" })
+          vim.keymap.set("n", "<leader>ls", vim.lsp.buf.document_symbol, { buffer = ev.buf, desc = "document symbols" })
+          vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "implementation" })
+          vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { buffer = ev.buf, desc = "line diagnostic" })
+          vim.keymap.set("n", "<leader>lw", vim.lsp.buf.workspace_symbol, { buffer = ev.buf, desc = "workspace symbols" })
+
+          -- Diagnostic navigation
+          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { buffer = ev.buf, desc = "Prev diagnostic" })
+          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { buffer = ev.buf, desc = "Next diagnostic" })
+
+          -- Signature help in insert mode
+          vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature help" })
         end,
       })
 
