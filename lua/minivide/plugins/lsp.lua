@@ -9,6 +9,13 @@ return {
       -- 1. Setup Mason to manage external binaries
       require("mason").setup()
 
+      -- Unified borders for all LSP floating windows
+      vim.diagnostic.config({
+        float = { border = "single" },
+      })
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
+
       -- Create an autocmd that runs when an LSP attaches to a buffer
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
