@@ -44,6 +44,7 @@ return {
             { "<leader>d", hidden = true, buffer = buf },
             { "<leader>h", hidden = true, buffer = buf },
             { "<leader>g", hidden = true, buffer = buf },
+            { "<leader>F", hidden = true, buffer = buf },
             { "<leader>m", hidden = true, buffer = buf },
           })
 

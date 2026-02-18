@@ -22,6 +22,7 @@ return {
         { "<leader>l", group = "lsp", icon = " " }, -- Package/Box icon
         { "<leader>d", group = "debug", icon = " " }, -- Debug icon
         { "<leader>h", group = "harpoon", icon = "⚓" },
+        { "<leader>F", group = "flutter", icon = "🐦" },
         { "<leader>g", group = "godot", icon = " " }, -- Godot icon
         { "<leader>w", desc = "save file", icon = " " }, -- Floppy disk icon
       },

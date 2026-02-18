@@ -34,6 +34,7 @@ return {
         "javascript",
         "html",
         "css",
+        "dart",
       },
       -- Highlighting is enabled by default in v1.0, 
       -- but we can still customize it here
