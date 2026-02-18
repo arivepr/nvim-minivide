@@ -9,7 +9,7 @@ return {
       win = {
         border = "single", -- Unified with FZF and LSP windows
         padding = { 1, 2 }, -- Add some "breathing room" (top/bottom, left/right)
-        title = " Minivide Keys ",
+        title = " Keymaps ",
         title_pos = "center",
       },
       icons = {
@@ -18,11 +18,11 @@ return {
       -- Logic to group your leader keys into "folders" in the UI
       spec = {
         { "<leader>b", group = "buffer", icon = " " }, -- Multiple files icon
-        { "<leader>f", group = "find", icon = " " },   -- Search icon
-        { "<leader>l", group = "lsp", icon = " " },    -- Package/Box icon
-        { "<leader>d", group = "debug", icon = " " },  -- Debug icon
+        { "<leader>f", group = "find", icon = " " }, -- Search icon
+        { "<leader>l", group = "lsp", icon = " " }, -- Package/Box icon
+        { "<leader>d", group = "debug", icon = " " }, -- Debug icon
         { "<leader>h", group = "harpoon", icon = "⚓" },
-        { "<leader>g", group = "godot", icon = " " },  -- Godot icon
+        { "<leader>g", group = "godot", icon = " " }, -- Godot icon
         { "<leader>w", desc = "save file", icon = " " }, -- Floppy disk icon
       },
     },

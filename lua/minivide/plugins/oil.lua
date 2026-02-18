@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
-    dependencies = {{ "nvim-mini/mini.icons" }},
+    dependencies = { { "nvim-mini/mini.icons" } },
     config = function()
       require("oil").setup({
         default_file_explorer = true,
@@ -24,6 +24,7 @@ return {
           win_options = {
             winblend = 0,
           },
+          preview_split = "below",
         },
       })
 
@@ -33,9 +34,17 @@ return {
           local opts = { buffer = args.buf }
           local actions = require("oil.actions")
 
-          -- Register the group buffer-locally so which-key only shows it in oil
+          -- Register oil group and hide irrelevant global groups in oil buffers
+          local buf = args.buf
           require("which-key").add({
-            { "<leader>o", group = "oil", icon = "🛢", buffer = args.buf },
+            { "<leader>o", group = "oil", icon = "🛢", buffer = buf },
+            { "<leader>b", hidden = true, buffer = buf },
+            { "<leader>f", hidden = true, buffer = buf },
+            { "<leader>l", hidden = true, buffer = buf },
+            { "<leader>d", hidden = true, buffer = buf },
+            { "<leader>h", hidden = true, buffer = buf },
+            { "<leader>g", hidden = true, buffer = buf },
+            { "<leader>m", hidden = true, buffer = buf },
           })
 
           vim.keymap.set("n", "<leader>on", "o<Esc>", vim.tbl_extend("force", opts, { desc = "new file" }))
