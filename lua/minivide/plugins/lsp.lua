@@ -45,7 +45,7 @@ return {
 
       -- 2. Setup Mason-LSPConfig with the 0.11-style handlers
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "pyright" },
+        ensure_installed = { "lua_ls", "pyright", "ruff", "eslint", "gopls" },
 
         -- In 0.11, we use the new vim.lsp.config and vim.lsp.enable APIs
         handlers = {
@@ -54,6 +54,35 @@ return {
             local capabilities = require("blink.cmp").get_lsp_capabilities()
             vim.lsp.config(server_name, { capabilities = capabilities })
             vim.lsp.enable(server_name)
+          end,
+
+          -- Ruff: Python linter LSP (runs alongside pyright)
+          ["ruff"] = function()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            vim.lsp.config("ruff", {
+              capabilities = capabilities,
+              on_attach = function(client, bufnr)
+                -- Disable ruff's hover in favor of pyright's
+                client.server_capabilities.hoverProvider = false
+              end,
+            })
+            vim.lsp.enable("ruff")
+          end,
+
+          -- ESLint: JS/TS linter LSP
+          ["eslint"] = function()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            vim.lsp.config("eslint", {
+              capabilities = capabilities,
+              on_attach = function(client, bufnr)
+                -- Auto-fix eslint issues on save
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  buffer = bufnr,
+                  command = "silent! EslintFixAll",
+                })
+              end,
+            })
+            vim.lsp.enable("eslint")
           end,
 
           -- Specific override for Lua
