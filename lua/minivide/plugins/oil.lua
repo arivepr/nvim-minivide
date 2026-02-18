@@ -46,6 +46,7 @@ return {
             { "<leader>g", hidden = true, buffer = buf },
             { "<leader>F", hidden = true, buffer = buf },
             { "<leader>m", hidden = true, buffer = buf },
+            { "<leader>S", hidden = true, buffer = buf },
           })
 
           vim.keymap.set("n", "<leader>on", "o<Esc>", vim.tbl_extend("force", opts, { desc = "new file" }))
