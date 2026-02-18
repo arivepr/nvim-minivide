@@ -12,23 +12,70 @@ return {
     opts = {
       -- 'default' for mappings similar to vscode
       -- 'super-tab' for mappings similar to lua-autocomplete
-      keymap = { preset = 'default' },
-
-      appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your colorscheme doesn't support blink.cmp yet
-        use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to match your font
-        nerd_font_variant = 'normal'
+      keymap = {
+        preset = 'default',
+        ['<C-d>'] = { 'show_documentation', 'hide_documentation', 'fallback' },
       },
 
-      -- Default list of enabled providers
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'normal',
+        kind_icons = {
+          Text = '󰉿',
+          Method = '󰊕',
+          Function = '󰊕',
+          Constructor = '󰒓',
+          Field = '󰜢',
+          Variable = '󰀫',
+          Class = '󰠱',
+          Interface = '',
+          Module = '󰏗',
+          Property = '󰜢',
+          Unit = '󰑭',
+          Value = '󰎠',
+          Enum = '',
+          Keyword = '󰌋',
+          Snippet = '',
+          Color = '󰏘',
+          File = '󰈙',
+          Reference = '',
+          Folder = '󰉋',
+          EnumMember = '',
+          Constant = '󰏿',
+          Struct = '󰙅',
+          Event = '',
+          Operator = '󰆕',
+          TypeParameter = '󰅲',
+        },
+      },
+
+      completion = {
+        menu = {
+          border = 'single',
+          draw = {
+            columns = {
+              { 'kind_icon' },
+              { 'label', 'label_description', gap = 1 },
+              { 'source_name' },
+            },
+          },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
+          window = {
+            border = 'single',
+          },
+        },
+        ghost_text = {
+          enabled = true,
+        },
+      },
+
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
 
-      -- Experimental signature help support
       signature = { enabled = true }
     },
     opts_extend = { "sources.default" }
