@@ -11,14 +11,18 @@ vim.keymap.set('i', ';;', '<Esc>', { noremap = true, silent = true })
 -- File Management
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", function() require("oil").open_float() end, { desc = "Open parent directory" })
 vim.keymap.set("n", "<leader>e", function()
   if vim.bo.filetype == "oil" then
     require("oil").close()
   else
-    require("oil").open()
+    require("oil").open_float()
   end
 end, { desc = "Toggle Oil" })
+
+-- Toggle comment
+vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
 
 -- Buffer Manipulation
 vim.keymap.set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
