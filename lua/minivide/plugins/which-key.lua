@@ -24,6 +24,7 @@ return {
         { "<leader>h", group = "harpoon", icon = "󱡅 " },
         { "<leader>F", group = "flutter", icon = "" },
         { "<leader>g", group = "godot", icon = " " }, -- Godot icon
+        { "<leader>T", group = "terminal", icon = " " },
         { "<leader>S", group = "session", icon = " " },
         { "<leader>w", desc = "save file", icon = " " }, -- Floppy disk icon
       },

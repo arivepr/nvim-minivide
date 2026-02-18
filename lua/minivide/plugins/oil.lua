@@ -13,8 +13,16 @@ return {
         -- Skip the confirmation popup for simple operations
         skip_confirm_for_simple_edits = true,
         view_options = {
-          -- Show files and directories that start with "."
           show_hidden = true,
+          is_hidden_file = function(name, bufnr)
+            -- Hide Godot-generated files that should never be manually edited
+            if name == ".godot" then return true end
+            if name:match("%.uid$") then return true end
+            if name:match("%.import$") then return true end
+            if name == "server.pipe" then return true end
+            -- Default: hide dotfiles
+            return vim.startswith(name, ".")
+          end,
         },
         float = {
           padding = 2,
@@ -47,6 +55,7 @@ return {
             { "<leader>F", hidden = true, buffer = buf },
             { "<leader>m", hidden = true, buffer = buf },
             { "<leader>S", hidden = true, buffer = buf },
+            { "<leader>T", hidden = true, buffer = buf },
           })
 
           vim.keymap.set("n", "<leader>on", "o<Esc>", vim.tbl_extend("force", opts, { desc = "new file" }))

@@ -50,4 +50,24 @@ vim.keymap.set("n", "<leader>gr", "<cmd>GodotRun<cr>", { desc = "Godot: Run proj
 vim.keymap.set("n", "<leader>gc", "<cmd>GodotRunCurrent<cr>", { desc = "Godot: Run current scene" })
 vim.keymap.set("n", "<leader>gl", "<cmd>GodotRunLast<cr>", { desc = "Godot: Run last scene" })
 
+-- F-key bindings only in Godot filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gdscript", "gdshader", "godot_resource" },
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    -- Scene running
+    vim.keymap.set("n", "<F5>", "<cmd>GodotRun<cr>", vim.tbl_extend("force", opts, { desc = "Godot: Run project" }))
+    vim.keymap.set("n", "<F6>", "<cmd>GodotRunCurrent<cr>", vim.tbl_extend("force", opts, { desc = "Godot: Run current scene" }))
+    vim.keymap.set("n", "<F4>", "<cmd>GodotRunLast<cr>", vim.tbl_extend("force", opts, { desc = "Godot: Run last scene" }))
+
+    -- Debugging (matches Godot editor F-keys)
+    local dap = require("dap")
+    vim.keymap.set("n", "<F7>", dap.continue, vim.tbl_extend("force", opts, { desc = "Godot: Continue/Pause" }))
+    vim.keymap.set("n", "<F8>", dap.terminate, vim.tbl_extend("force", opts, { desc = "Godot: Stop debugging" }))
+    vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, vim.tbl_extend("force", opts, { desc = "Godot: Toggle breakpoint" }))
+    vim.keymap.set("n", "<F10>", dap.step_over, vim.tbl_extend("force", opts, { desc = "Godot: Step over" }))
+    vim.keymap.set("n", "<F11>", dap.step_into, vim.tbl_extend("force", opts, { desc = "Godot: Step into" }))
+  end,
+})
+
 return {}
