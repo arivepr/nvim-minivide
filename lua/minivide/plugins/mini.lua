@@ -30,7 +30,12 @@ return {
         items = {
           starter.sections.sessions(5, true),
           starter.sections.recent_files(5, false),
-          starter.sections.builtin_actions(),
+          {
+            { name = "Find files", action = "lua require('minivide.settings.fzf_custom').project_files()", section = "Quick actions" },
+            { name = "Live grep", action = "lua require('minivide.settings.fzf_custom').live_grep()", section = "Quick actions" },
+            { name = "File explorer", action = "lua require('oil').open_float()", section = "Quick actions" },
+            { name = "Git status", action = "FzfLua git_status", section = "Quick actions" },
+          },
         },
         header = "Minivide",
         footer = "",

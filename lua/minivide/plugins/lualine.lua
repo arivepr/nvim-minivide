@@ -3,27 +3,39 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-mini/mini.icons", "ThePrimeagen/harpoon" },
     opts = function()
-      local colors = require("catppuccin.palettes").get_palette()
+      local colors = {
+        bg = "#2e2e2e",
+        fg = "#dfe0e0",
+        blue = "#93b2b2",
+        green = "#678568",
+        red = "#a07474",
+        yellow = "#c3a769",
+        purple = "#c66d86",
+        orange = "#67a9aa",
+        accent = "#ce8f6b",
+        line_numbers = "#8a896a",
+        disabled = "#414863",
+      }
 
       local mode_color = {
         n = colors.blue,
         i = colors.green,
-        v = colors.mauve,
-        [""] = colors.mauve,
-        V = colors.mauve,
-        c = colors.peach,
+        v = colors.purple,
+        [""] = colors.purple,
+        V = colors.purple,
+        c = colors.yellow,
         no = colors.red,
-        s = colors.flamingo,
-        S = colors.flamingo,
-        [""] = colors.flamingo,
+        s = colors.accent,
+        S = colors.accent,
+        [""] = colors.accent,
         ic = colors.yellow,
         R = colors.red,
         Rv = colors.red,
-        cv = colors.peach,
-        ce = colors.peach,
-        r = colors.teal,
-        rm = colors.teal,
-        ["r?"] = colors.teal,
+        cv = colors.yellow,
+        ce = colors.yellow,
+        r = colors.blue,
+        rm = colors.blue,
+        ["r?"] = colors.blue,
         ["!"] = colors.red,
         t = colors.red,
       }
@@ -63,10 +75,10 @@ return {
         return table.concat(tabs)
       end
 
-      -- Set up tabline highlight groups using catppuccin colors
-      vim.api.nvim_set_hl(0, "MinivideTablActive", { fg = colors.blue, bg = colors.mantle, bold = true })
-      vim.api.nvim_set_hl(0, "MinivideTablInactive", { fg = colors.overlay0, bg = colors.mantle })
-      vim.api.nvim_set_hl(0, "MinivideTablineBg", { fg = colors.overlay0, bg = colors.mantle })
+      -- Set up tabline highlight groups using seoul256 colors
+      vim.api.nvim_set_hl(0, "MinivideTablActive", { fg = colors.blue, bg = colors.bg, bold = true })
+      vim.api.nvim_set_hl(0, "MinivideTablInactive", { fg = colors.line_numbers, bg = colors.bg })
+      vim.api.nvim_set_hl(0, "MinivideTablineBg", { fg = colors.line_numbers, bg = colors.bg })
 
       local config = {
         options = {
@@ -74,8 +86,8 @@ return {
           component_separators = "",
           section_separators = "",
           theme = {
-            normal = { c = { fg = colors.text, bg = colors.mantle } },
-            inactive = { c = { fg = colors.overlay0, bg = colors.mantle } },
+            normal = { c = { fg = colors.fg, bg = colors.bg } },
+            inactive = { c = { fg = colors.disabled, bg = colors.bg } },
           },
           globalstatus = true,
           refresh = {
@@ -138,7 +150,7 @@ return {
       ins_left({
         "filesize",
         cond = conditions.buffer_not_empty,
-        color = { fg = colors.subtext0 },
+        color = { fg = colors.line_numbers },
       })
 
       -- Filename
@@ -152,13 +164,13 @@ return {
       -- Location
       ins_left({
         "location",
-        color = { fg = colors.subtext0 },
+        color = { fg = colors.line_numbers },
       })
 
       -- Progress
       ins_left({
         "progress",
-        color = { fg = colors.subtext0 },
+        color = { fg = colors.line_numbers },
       })
 
       -- Diagnostics
@@ -169,7 +181,7 @@ return {
         diagnostics_color = {
           error = { fg = colors.red },
           warn = { fg = colors.yellow },
-          info = { fg = colors.sky },
+          info = { fg = colors.blue },
         },
       })
 
@@ -188,7 +200,7 @@ return {
           return table.concat(names, ", ")
         end,
         icon = " ",
-        color = { fg = colors.subtext0 },
+        color = { fg = colors.line_numbers },
       })
 
       -- Right side
@@ -198,7 +210,7 @@ return {
         "o:encoding",
         fmt = string.upper,
         cond = conditions.hide_in_width,
-        color = { fg = colors.overlay1 },
+        color = { fg = colors.line_numbers },
       })
 
       -- File format
@@ -206,14 +218,14 @@ return {
         "fileformat",
         fmt = string.upper,
         icons_enabled = false,
-        color = { fg = colors.overlay1 },
+        color = { fg = colors.line_numbers },
       })
 
       -- Git branch
       ins_right({
         "branch",
         icon = "",
-        color = { fg = colors.mauve, gui = "bold" },
+        color = { fg = colors.purple, gui = "bold" },
       })
 
       -- Git diff
@@ -222,7 +234,7 @@ return {
         symbols = { added = " ", modified = " ", removed = " " },
         diff_color = {
           added = { fg = colors.green },
-          modified = { fg = colors.peach },
+          modified = { fg = colors.yellow },
           removed = { fg = colors.red },
         },
         cond = conditions.hide_in_width,

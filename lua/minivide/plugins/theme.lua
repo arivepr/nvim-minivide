@@ -1,89 +1,79 @@
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000, -- Load this first
+    "shaunsingh/seoul256.nvim",
+    priority = 1000,
     config = function()
-      require("catppuccin").setup({
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-        transparent_background = false,
-        term_colors = true,
-        integrations = {
-          cmp = true,
-          fzf = true,
-          gitsigns = true,
-          mini = {
-            enabled = true,
-            indentscope_color = "",
-          },
-          native_lsp = {
-            enabled = true,
-            virtual_text = {
-              errors = { "italic" },
-              hints = { "italic" },
-              warnings = { "italic" },
-              information = { "italic" },
-            },
-            underlines = {
-              errors = { "underline" },
-              hints = { "underline" },
-              warnings = { "underline" },
-              information = { "underline" },
-            },
-            inlay_hints = {
-              background = true,
-            },
-            semantic_tokens = true, -- <--- Added this
-          },
-          telescope = {
-            enabled = true,
-          },
-          treesitter = true,
-          which_key = true,
-        },
-        custom_highlights = function(colors)
-          return {
-            -- GDScript Structural Highlighting (React/TS Semantic Mapping)
-            ["@type.gdscript"] = { fg = colors.yellow },               -- Classes (PhysicsRayQueryParameters2D)
-            ["@variable.member.gdscript"] = { fg = colors.lavender },  -- Class members (player)
-            ["@variable.parameter.gdscript"] = { fg = colors.maroon }, -- Function parameters (spawn_position)
-            ["@function.method.gdscript"] = { fg = colors.blue },      -- Methods (.create, .global_position)
-            ["@function.call.gdscript"] = { fg = colors.blue },        -- Call expressions
-            ["@property.gdscript"] = { fg = colors.lavender },         -- Properties
-            ["@variable.gdscript"] = { fg = colors.text },             -- Local variables
-            ["@constant.gdscript"] = { fg = colors.peach },            -- Constants (TERRAIN_LAYER_ID)
-            ["@annotation.gdscript"] = { fg = colors.flamingo },       -- @onready, @export
-            
-            -- Treesitter fallbacks to catch what generic @variable might miss
-            ["@identifier.gdscript"] = { fg = colors.text },           
-            ["@attribute.gdscript"] = { fg = colors.blue },            -- .global_position, .create
-            ["@constructor.gdscript"] = { fg = colors.yellow },        -- Class constructors/names
-            ["@type.identifier.gdscript"] = { fg = colors.yellow },
-            
-            -- Engine Specifics
-            ["@punctuation.special.gdscript"] = { fg = colors.peach }, -- $Node and %UniqueNode
-            ["@keyword.onready.gdscript"] = { fg = colors.flamingo, style = { "italic" } },
-            ["@keyword.export.gdscript"] = { fg = colors.flamingo, style = { "italic" } },
-            ["@keyword.signal.gdscript"] = { fg = colors.rosewater, style = { "bold" } }, 
-            ["@variable.signal.gdscript"] = { fg = colors.rosewater },
+      -- Seoul256 configuration
+      vim.g.seoul256_italic_comments = true
+      vim.g.seoul256_italic_keywords = true
+      vim.g.seoul256_contrast = true
+      vim.g.seoul256_borders = true
+      vim.g.seoul256_cursorline = true
 
-            -- Semantic Token Mapping (The "Intelligence" layer)
-            ["@lsp.type.class.gdscript"] = { fg = colors.yellow, style = { "bold" } },
-            ["@lsp.type.property.gdscript"] = { fg = colors.lavender },
-            ["@lsp.type.parameter.gdscript"] = { fg = colors.maroon },
-            ["@lsp.type.method.gdscript"] = { fg = colors.blue },
-            ["@lsp.type.enum.gdscript"] = { fg = colors.yellow },
-            ["@lsp.type.enumMember.gdscript"] = { fg = colors.teal },
-            ["@lsp.typemod.variable.readonly.gdscript"] = { fg = colors.peach },
-            
-            -- Inlay Hints
-            ["LspInlayHint"] = { fg = colors.overlay0, bg = "NONE", style = { "italic" } },
-          }
-        end,
-      })
+      vim.cmd.colorscheme("seoul256")
 
-      -- setup must be called before loading
-      vim.cmd.colorscheme("catppuccin")
+      -- Darken the default background (plugin hardcodes #4c4c4c)
+      local dark_bg = "#2e2e2e"
+      vim.api.nvim_set_hl(0, "Normal", { bg = dark_bg })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = dark_bg })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = dark_bg })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = dark_bg })
+
+      -- Seoul256 palette for custom highlights
+      local c = {
+        yellow = "#c3a769",
+        paleblue = "#c78a69",
+        pink = "#d0a39f",
+        blue = "#93b2b2",
+        fg = "#dfe0e0",
+        orange = "#67a9aa",
+        accent = "#ce8f6b",
+        purple = "#c66d86",
+        line_numbers = "#8a896a",
+        ds_teal = "#5f9ea0",
+      }
+
+      local hl = vim.api.nvim_set_hl
+
+      -- GDScript Structural Highlighting
+      hl(0, "@type.gdscript", { fg = c.yellow })
+      hl(0, "@variable.member.gdscript", { fg = c.paleblue })
+      hl(0, "@variable.parameter.gdscript", { fg = c.pink })
+      hl(0, "@function.method.gdscript", { fg = c.blue })
+      hl(0, "@function.call.gdscript", { fg = c.ds_teal })
+      hl(0, "@property.gdscript", { fg = c.paleblue })
+      hl(0, "@variable.gdscript", { fg = c.fg })
+      hl(0, "@constant.gdscript", { fg = c.orange })
+      hl(0, "@annotation.gdscript", { fg = c.accent })
+
+      -- Treesitter fallbacks
+      hl(0, "@identifier.gdscript", { fg = c.fg })
+      hl(0, "@attribute.gdscript", { fg = c.blue })
+      hl(0, "@constructor.gdscript", { fg = c.yellow })
+      hl(0, "@type.identifier.gdscript", { fg = c.yellow })
+
+      -- Engine Specifics
+      hl(0, "@punctuation.special.gdscript", { fg = c.orange })
+      hl(0, "@keyword.onready.gdscript", { fg = c.accent, italic = true })
+      hl(0, "@keyword.export.gdscript", { fg = c.accent, italic = true })
+      hl(0, "@keyword.signal.gdscript", { fg = c.purple, bold = true })
+      hl(0, "@variable.signal.gdscript", { fg = c.purple })
+
+      -- Semantic Token Mapping
+      hl(0, "@lsp.type.class.gdscript", { fg = c.yellow, bold = true })
+      hl(0, "@lsp.type.property.gdscript", { fg = c.paleblue })
+      hl(0, "@lsp.type.parameter.gdscript", { fg = c.pink })
+      hl(0, "@lsp.type.method.gdscript", { fg = c.blue })
+      hl(0, "@lsp.type.enum.gdscript", { fg = c.yellow })
+      hl(0, "@lsp.type.enumMember.gdscript", { fg = c.ds_teal })
+      hl(0, "@lsp.typemod.variable.readonly.gdscript", { fg = c.orange })
+
+      -- Mini Starter: neutralize prefix coloring, let cursorline do the work
+      hl(0, "MiniStarterItemPrefix", { link = "MiniStarterItem" })
+      hl(0, "MiniStarterCurrent", { fg = c.orange, bold = true })
+
+      -- Inlay Hints
+      hl(0, "LspInlayHint", { fg = c.line_numbers, bg = "NONE", italic = true })
     end,
   },
 }

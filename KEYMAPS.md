@@ -12,6 +12,10 @@ Leader key: `Space`
 | `<leader>/` | Normal | Toggle comment |
 | `<leader>/` | Visual | Toggle comment |
 | `<leader>G` | Normal | Open Lazygit |
+| `Alt+j` | Normal | Move line down |
+| `Alt+k` | Normal | Move line up |
+| `Alt+j` | Visual | Move selection down |
+| `Alt+k` | Visual | Move selection up |
 
 ## File Explorer (Oil)
 
