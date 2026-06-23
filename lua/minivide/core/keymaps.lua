@@ -36,6 +36,9 @@ vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffe
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>FzfLua buffers<cr>", { desc = "List buffers" })
 
+-- Theme
+vim.keymap.set("n", "<leader>tl", function() require("minivide.core.palette").toggle() end, { desc = "Toggle light/dark" })
+
 -- Fuzzy Finder (FZF-Lua)
 -- We wrap these in functions so they only load fzf_custom when actually called
 vim.keymap.set("n", "<leader>ff", function() require("minivide.settings.fzf_custom").project_files() end, { desc = "Find Files" })

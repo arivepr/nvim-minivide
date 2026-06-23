@@ -1,6 +1,6 @@
 return {
   {
-    "lewis6742/gitsigns.nvim",
+    "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     opts = {
       signs = {
@@ -10,12 +10,12 @@ return {
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
       },
-      current_line_blame = false,
+      current_line_blame = true,
       current_line_blame_opts = {
-        virt_text = true,
-        virt_text_pos = "eol",
+        virt_text = false,
         delay = 300,
       },
+      current_line_blame_formatter = "",
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
         local function map(mode, l, r, desc)

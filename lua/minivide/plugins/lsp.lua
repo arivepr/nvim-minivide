@@ -4,6 +4,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "teatek/gdscript-extended-lsp.nvim",
     },
     config = function()
       -- 1. Setup Mason to manage external binaries
@@ -103,35 +104,32 @@ return {
         },
       })
 
-      -- 3. Setup Godot LSP (Pro-level setup)
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-      -- Enable semantic tokens and inlay hints for high-context coding
-      capabilities.textDocument = capabilities.textDocument or {}
-      capabilities.textDocument.semanticTokens = { dynamicRegistration = true }
+      -- 3. Setup Godot LSP via explicit FileType autocmd (required for TCP servers)
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "gdscript",
+        callback = function()
+          local caps = require("blink.cmp").get_lsp_capabilities()
+          caps.textDocument = caps.textDocument or {}
+          caps.textDocument.semanticTokens = { dynamicRegistration = true }
 
-      vim.lsp.config("gdscript", {
-        capabilities = capabilities,
-        filetypes = { "gdscript" },
-        -- Use nc to bridge the connection (more stable for context-rich projects)
-        cmd = { "nc", "127.0.0.1", "6005" },
-        -- Integrate extended LSP handlers for documentation and signals
-        handlers = require("gdscript-extended-lsp").handlers,
-        -- Root dir detection ensures cross-file signals and node paths work
-        root_dir = function(fname)
-          return vim.fs.root(fname, { "project.godot", ".git" })
-        end,
-        on_attach = function(client, bufnr)
-          -- Disable LSP formatting to let conform.nvim handle it
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
+          local ok, ext = pcall(require, "gdscript-extended-lsp")
 
-          -- Enable Inlay Hints (Visual context for parameters/types)
-          if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          end
+          vim.lsp.start({
+            name = "gdscript",
+            cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
+            root_dir = vim.fs.root(vim.api.nvim_buf_get_name(0), { "project.godot", ".git" }),
+            capabilities = caps,
+            handlers = ok and ext.handlers or nil,
+            on_attach = function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentRangeFormattingProvider = false
+              if client.server_capabilities.inlayHintProvider then
+                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+              end
+            end,
+          })
         end,
       })
-      vim.lsp.enable("gdscript")
     end,
   },
 }

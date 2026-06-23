@@ -18,16 +18,17 @@ return {
       -- Logic to group your leader keys into "folders" in the UI
       spec = {
         -- Uppercase keys (displayed first)
-        { "<leader>F", group = "flutter", icon = " " }, -- Multiple files icon
         { "<leader>f", group = "find", icon = " " }, -- Search icon
         { "<leader>l", group = "lsp", icon = " " }, -- Package/Box icon
         { "<leader>d", group = "debug", icon = " " }, -- Debug icon
         { "<leader>h", group = "harpoon", icon = "󱡅 " },
         { "<leader>b", group = "buffer", icon = " " },
-        { "<leader>F", group = "flutter", icon = "" },
         { "<leader>g", group = "godot", icon = " " }, -- Godot icon
+        { "<leader>F", group = "flutter", icon = "" },
+        { "<leader>G", group = "Git", icon = " " }, -- Multiple files icon
         { "<leader>T", group = "terminal", icon = "" },
         { "<leader>S", group = "session", icon = " " },
+        { "<leader>t", group = "theme", icon = " " },
         { "<leader>w", desc = "save file", icon = " " }, -- Floppy disk icon
       },
     },
